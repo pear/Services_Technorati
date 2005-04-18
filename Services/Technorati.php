@@ -61,7 +61,7 @@ class Services_Technorati
      * @access  private
      * @var     string
      */
-     var $_apiUrl = 'http://api.technorati.com';
+    var $_apiUrl = 'http://api.technorati.com';
 
     /**
      * API Key
@@ -69,7 +69,7 @@ class Services_Technorati
      * @access  private
      * @var     string
      */
-     var $_apiKey = null;
+    var $_apiKey = null;
 
     /**
      * Hours To Cache
@@ -143,9 +143,9 @@ class Services_Technorati
      * @access      public
      * @return      array
      */
-     function keyInfo() {
+    function keyInfo() {
         return $this->_sendRequest('keyinfo');
-     }
+    }
 
     /**
      * Cosmos lets you see what blogs are linking to a given URL
@@ -400,8 +400,8 @@ class Services_Technorati
      * @param       array   options
      * @return      array
      */
-     function topTags($options)
-     {
+    function topTags($options)
+    {
         $valid_options = array('limit', 'start');
         if (is_array($options)) {
             $options = $this->_checkOptions($options, $valid_options);
