@@ -34,11 +34,6 @@ require_once 'XML/Unserializer.php';
  * uses HTTP to send requests
  */ 
 require_once 'HTTP/Request.php';
-
-/**
- * uses Cache_Lite for caching
- */
- require_once 'Cache/Lite.php';
  
 /**
  * Client for Technorati's REST-based webservices
@@ -100,21 +95,14 @@ class Services_Technorati
      *
      * @access     public
      * @param      string   apiKey
-     * @param      int      hoursToCache
-     * @param      string   pathToCache
+     * @param      object   cache	
      */
-    function Services_Technorati($apiKey, $hoursToCache = null, $pathToCache = null)
+    function Services_Technorati($apiKey, $cache = null)
     {
         $this->_apiKey = $apiKey;
 
-        if (!empty($hoursToCache)) {
-            $this->_hoursToCache = $hoursToCache;
-            $this->_pathToCache = $pathToCache;
-            $cache_options = array(
-                'cacheDir' => $pathToCache,
-                'lifeTime' => (3600 * $hoursToCache)
-            );
-            $this->_cache = new Cache_Lite($cache_options);
+        if (!empty($cache)) {
+            $this->_cache = $cache;
         }
     }
 
@@ -124,14 +112,13 @@ class Services_Technorati
      *
      * @access     public
      * @param      string               apiKey
-     * @param      int                  hoursToCache
-     * @param      string               pathToCache
+     * @param      object               cache
      * @param      float                apiVersion
      * @return     Services_Technorati  object
      */
-    function factory($apiKey, $hoursToCache = null, $pathToCache = null, $apiVersion = 1.0)
+    function factory($apiKey, $cache = null, $apiVersion = 1.0)
     {
-        return new Services_Technorati($apiKey, $hoursToCache, $pathToCache);
+        return new Services_Technorati($apiKey, $cache);
     }
 
     /**
@@ -416,7 +403,7 @@ class Services_Technorati
 
         /* Build cache URI */
 
-        $filename = $url."cosmos" . implode("-", $options);
+        $filename = $url. "cosmos" . implode("-", $options);
 
         /* Check if cached */
 
@@ -548,13 +535,14 @@ class Services_Technorati
     function _sendRequest($query, $options = array())
     {
         /* Do all the nitty gritty HTTP stuff. Except attentionPost */
-        $url = sprintf("%s/%s?key=%s", $this->_apiUrl, $query,$this->_apiKey);
-
-        foreach ($options as $key => $value) {
-            $url = $url . '&' . $key . '=' . urlencode($value);
-        }
+        $url = sprintf("%s/%s?key=%s", $this->_apiUrl, $query, $this->_apiKey);
 
         $request =& new HTTP_Request($url);
+        
+        foreach ($options as $key => $value) {
+        	$request->addQueryString($key, $value);
+        }
+        
         $request->addHeader('User-Agent', 'Services_Technorati');
 
         $request->sendRequest();
