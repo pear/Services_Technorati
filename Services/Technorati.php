@@ -103,12 +103,11 @@ class Services_Technorati
      * @param      int      hoursToCache
      * @param      string   pathToCache
      */
-
     function Services_Technorati($apiKey, $hoursToCache = null, $pathToCache = null)
     {
         $this->_apiKey = $apiKey;
 
-        if (! empty($hoursToCache)) {
+        if (!empty($hoursToCache)) {
             $this->_hoursToCache = $hoursToCache;
             $this->_pathToCache = $pathToCache;
             $cache_options = array(
@@ -120,15 +119,17 @@ class Services_Technorati
     }
 
     /**
-     * Factory methods to create client
+     * Factory methods to create client. This is in place to prepare for
+     * forwards compatibility with future versions of the API.
      *
      * @access     public
      * @param      string               apiKey
      * @param      int                  hoursToCache
      * @param      string               pathToCache
+     * @param      float                apiVersion
      * @return     Services_Technorati  object
      */
-    function factory($apiKey, $hoursToCache = '', $pathToCache = '')
+    function factory($apiKey, $hoursToCache = null, $pathToCache = null, $apiVersion = 1.0)
     {
         return new Services_Technorati($apiKey, $hoursToCache, $pathToCache);
     }
@@ -177,7 +178,7 @@ class Services_Technorati
 
         /* Check if cached */
 
-        if (!empty($this->_cache) && $cache = $this->_cache->get($filename)) {
+        if (!empty($this->_cache) and $cache = $this->_cache->get($filename)) {
             return $cache;
         }
 
@@ -185,7 +186,7 @@ class Services_Technorati
 
         $value = $this->_sendRequest('cosmos', $options);
 
-        if (! PEAR::isError($value) && !empty($this->_cache)) {
+        if (! PEAR::isError($value) and !empty($this->_cache)) {
             $this->_cache->save($value);
         }
 
@@ -229,7 +230,7 @@ class Services_Technorati
 
         $value = $this->_sendRequest('search', $options);
 
-        if (! PEAR::isError($value) && !empty($this->_cache)) {
+        if (! PEAR::isError($value) and !empty($this->_cache)) {
             $this->_cache->save($value);
         }
 
@@ -246,7 +247,7 @@ class Services_Technorati
     function getInfo($username)
     {
         $options = array('username' => urlencode($username));
-        
+
         /* Build cache URI */
 
         $filename = "getinfo.$username";
@@ -261,7 +262,7 @@ class Services_Technorati
 
         $value = $this->_sendRequest('getinfo', $options);
 
-        if (! PEAR::isError($value) && !empty($this->_cache)) {
+        if (! PEAR::isError($value) and !empty($this->_cache)) {
             $this->_cache->save($value);
         }
 
@@ -306,7 +307,7 @@ class Services_Technorati
 
         $value = $this->_sendRequest('outbound', $options);
 
-        if (! PEAR::isError($value) && !empty($this->_cache)) {
+        if (! PEAR::isError($value) and !empty($this->_cache)) {
             $this->_cache->save($value);
         }
 
@@ -339,7 +340,7 @@ class Services_Technorati
 
         $value = $this->_sendRequest('bloginfo', $options);
 
-        if (! PEAR::isError($value) && !empty($this->_cache)) {
+        if (! PEAR::isError($value) and !empty($this->_cache)) {
             $this->_cache->save($value);
         }
 
@@ -385,7 +386,7 @@ class Services_Technorati
 
         $value = $this->_sendRequest('tag', $options);
 
-        if (! PEAR::isError($value) && !empty($this->_cache)) {
+        if (! PEAR::isError($value) and !empty($this->_cache)) {
             $this->_cache->save($value);
         }
 
@@ -427,7 +428,7 @@ class Services_Technorati
 
         $value = $this->_sendRequest('toptags', $options);
 
-        if (! PEAR::isError($value) && !empty($this->_cache)) {
+        if (! PEAR::isError($value) and !empty($this->_cache)) {
             $this->_cache->save($value);
         }
 
@@ -462,7 +463,7 @@ class Services_Technorati
 
         $value = $this->_sendRequest('attention', $options);
 
-        if (! PEAR::isError($value) && !empty($this->_cache)) {
+        if (! PEAR::isError($value) and !empty($this->_cache)) {
             $this->_cache->save($value);
         }
 
@@ -477,6 +478,7 @@ class Services_Technorati
      * @access      public
      * @param       string  username
      * @param       string  password
+     * @param       string  filename
      * @return      boolean
      */
     function attentionPost($user, $password, $file)
@@ -503,7 +505,7 @@ class Services_Technorati
         $request->addHeader('User-Agent', 'Services_Technorati');
 
         $request->sendRequest();
-        
+
         if ($request->getResponseCode() != 200) {
             return PEAR::raiseError('Invalid Response Code', 
                     $request->getResponseCode());
@@ -563,7 +565,7 @@ class Services_Technorati
 
         $result = $request->getResponseBody();
 
-        if (! is_object($this->_xmlUs)) {
+        if (!is_object($this->_xmlUs)) {
             $this->_xmlUs =& new XML_Unserializer();
             $this->_xmlUs->setOption('parseAttributes', true);
         }
@@ -586,7 +588,8 @@ class Services_Technorati
     }
 
     /**
-     * raise errors if options are specified that aren't allowed
+     *  Filter options for those acceptable for this query. Raise
+     *  warnings if others have been passed.
      *
      * @access      private
      * @param       array       specified options
@@ -595,10 +598,11 @@ class Services_Technorati
     function _checkOptions($current, $accepted) 
     {
         foreach ($current as $option => $value) {
-            if (in_array($option,$accepted)) {
+            if (in_array($option, $accepted)) {
                 $accepted_options[$option] = $value;
             } else {
-                PEAR::raiseError("Invalid option passed to Query", $option);
+                PEAR::raiseError("$option is not an option for this query",null,
+                    PEAR_ERROR_TRIGGER, E_USER_WARNING);
             }
         }
     } 
