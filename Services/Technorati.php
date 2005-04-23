@@ -173,7 +173,7 @@ class Services_Technorati
 
         /* Build cache URI */
 
-        $filename = $url . "cosmos" . join("-", $options);
+        $filename = $url . "cosmos" . implode("-", $options);
 
         /* Check if cached */
 
@@ -294,7 +294,7 @@ class Services_Technorati
 
         /* Build cache URI */
 
-        $filename = $url . "outbound." . join("_",$options);
+        $filename = $url . "outbound." . implode("_",$options);
 
         /* Check if cached */
 
@@ -415,7 +415,7 @@ class Services_Technorati
 
         /* Build cache URI */
 
-        $filename = $url."cosmos" . join("-", $options);
+        $filename = $url."cosmos" . implode("-", $options);
 
         /* Check if cached */
 
