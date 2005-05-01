@@ -552,7 +552,6 @@ class Services_Technorati
         }
 
         $result = $request->getResponseBody();
-
         if (!is_object($this->_xmlUs)) {
             $this->_xmlUs =& new XML_Unserializer();
             $this->_xmlUs->setOption('parseAttributes', true);
@@ -568,9 +567,10 @@ class Services_Technorati
                 $value['document']['result']['error']);
         }
         $unserialized = $this->_xmlUs->getUnserializedData();
+        print_r($unserialized);
         if (!empty($unserialized['document']['result']['error'])) {
             return PEAR::raiseError("Technorati Response Error",
-                $value['document']['result']['error']);
+                $unserialized['document']['result']['error']);
         }
         return $unserialized;
     }
@@ -593,6 +593,7 @@ class Services_Technorati
                     PEAR_ERROR_TRIGGER, E_USER_WARNING);
             }
         }
+        return $accepted_options;
     } 
 }
 
