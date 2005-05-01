@@ -567,7 +567,7 @@ class Services_Technorati
                 $value['document']['result']['error']);
         }
         $unserialized = $this->_xmlUs->getUnserializedData();
-        print_r($unserialized);
+        
         if (!empty($unserialized['document']['result']['error'])) {
             return PEAR::raiseError("Technorati Response Error",
                 $unserialized['document']['result']['error']);
