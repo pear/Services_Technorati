@@ -16,23 +16,41 @@ Services_Technorati provides an interface to all of the query types in Technorat
 		</maintainer>
 	</maintainers>
 	<release>
-		<version>0.6.0alpha</version>
+		<version>0.6.1alpha</version>
 		<state>alpha</state>
-		<date>2005-04-17</date>
-		<notes>Clean up to match coding standards (thanks to Ryan King for assistance/proofreading)</notes>
+		<date>2005-05-01</date>
+		<notes>Cleaned up factory method. This should now be the standard way to instantiate
+No longer dependent on Cache_Lite (instead accepts handle for external cache)
+Added initial unit tests
+</notes>
 		<filelist>
-			<dir name="/" baseinstalldir="Services" />
-			<file role="php" name="Technorati.php">
+			<dir name="/" baseinstalldir="" />
+			<dir name="Services">
+			 <file role="php" name="Technorati.php">
 				<replace from="@version@" to="version" type="package-info"/>
-			</file>
+			 </file>
+			</dir>
+			<dir name="test">
+			 <file role="test" name="Services_Technorati_Test.php"/>
+			</dir>
 		</filelist>
 		<deps>
-			<dep type="pkg" rel="has" optional="no">Cache_Lite</dep>
+			<dep type="pkg" rel="has" optional="yes">Cache_Lite</dep>
 			<dep type="pkg" rel="has" optional="no">XML_Serializer</dep>
 			<dep type="pkg" rel="has" optional="no">HTTP_Request</dep>
 		</deps>
 	</release>
 	<changelog>
+	<release>
+			<version>0.6.1alpha</version>
+			<state>alpha</state>
+			<date>2005-05-01</date>
+			<notes>Cleaned up factory method. This should now be the standard way to instantiate
+No longer dependent on Cache_Lite (instead accepts handle for external cache)
+Added initial unit tests
+</notes>
+
+		</release>
 	<release>
 			<version>0.6.0alpha</version>
 			<state>alpha</state>
