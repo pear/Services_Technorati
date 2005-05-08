@@ -14,12 +14,18 @@ Services_Technorati provides an interface to all of the query types in Technorat
             <name>James Stewart</name>
             <email>james@jystewart.net</email>
         </maintainer>
+        <maintainer>
+            <user>ryansking</user>
+            <role>developer</role>
+            <name>Ryan King</name>
+            <email>ryansking@php.net</email>
+        </maintainer>
     </maintainers>
     <release>
-        <version>0.6.2alpha</version>
+        <version>0.6.3alpha</version>
         <state>alpha</state>
         <date>2005-05-01</date>
-        <notes>Removed debug code that had been left in (thanks to Greg Beaver)</notes>
+        <notes>Added checks to be sure we have a cache object before trying to use it.</notes>
         <filelist>
             <dir name="/" baseinstalldir="" />
             <dir name="Services">
@@ -38,11 +44,11 @@ Services_Technorati provides an interface to all of the query types in Technorat
         </deps>
     </release>
     <changelog>
-        <release>
+       <release>
             <version>0.6.2alpha</version>
             <state>alpha</state>
             <date>2005-05-01</date>
-            <notes>Removed debug code that had been left in (thanks to Greg Beaver)</notes>
+            <notes>Removed debug code that had been left in (thanks to Greg Beaver for spotting this)</notes>
         </release>
         <release>
              <version>0.6.1alpha</version>

@@ -100,10 +100,7 @@ class Services_Technorati
     function Services_Technorati($apiKey, $cache = null)
     {
         $this->_apiKey = $apiKey;
-
-        if (!empty($cache)) {
-            $this->_cache = $cache;
-        }
+        $this->_cache = $cache;
     }
 
     /**
@@ -209,7 +206,7 @@ class Services_Technorati
 
         /* Check if cached */
 
-        if ($cache = $this->_cache->get($filename)) {
+        if (isset($this->_cache) and $cache = $this->_cache->get($filename)) {
             return $cache;
         }
 
@@ -241,7 +238,7 @@ class Services_Technorati
 
         /* Check if cached */
 
-        if ($cache = $this->_cache->get($filename)) {
+        if (isset($this->_cache) and $cache = $this->_cache->get($filename)) {
             return $cache;
         }
 
@@ -286,7 +283,7 @@ class Services_Technorati
 
         /* Check if cached */
 
-        if ($cache = $this->_cache->get($filename)) {
+        if (isset($this->_cache) and $cache = $this->_cache->get($filename)) {
             return $cache;
         }
 
@@ -319,7 +316,7 @@ class Services_Technorati
 
         /* Check if cached */
 
-        if ($cache = $this->_cache->get($filename)) {
+        if (isset($this->_cache) and $cache = $this->_cache->get($filename)) {
             return $cache;
         }
 
@@ -365,7 +362,7 @@ class Services_Technorati
 
         /* Check if cached */
 
-        if ($cache = $this->_cache->get($filename)) {
+        if (isset($this->_cache) and $cache = $this->_cache->get($filename)) {
             return $cache;
         }
 
@@ -407,7 +404,7 @@ class Services_Technorati
 
         /* Check if cached */
 
-        if ($cache = $this->_cache->get($filename)) {
+        if (isset($this->_cache) and $cache = $this->_cache->get($filename)) {
             return $cache;
         }
 
@@ -442,7 +439,7 @@ class Services_Technorati
 
         /* Check if cached */
 
-        if ($cache = $this->_cache->get($filename)) {
+        if (isset($this->_cache) and $cache = $this->_cache->get($filename)) {
             return $cache;
         }
 
@@ -540,7 +537,7 @@ class Services_Technorati
         $request =& new HTTP_Request($url);
         
         foreach ($options as $key => $value) {
-        	$request->addQueryString($key, $value);
+            $request->addQueryString($key, $value);
         }
         
         $request->addHeader('User-Agent', 'Services_Technorati');
@@ -552,6 +549,7 @@ class Services_Technorati
         }
 
         $result = $request->getResponseBody();
+
         if (!is_object($this->_xmlUs)) {
             $this->_xmlUs =& new XML_Unserializer();
             $this->_xmlUs->setOption('parseAttributes', true);
