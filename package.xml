@@ -25,7 +25,8 @@ Services_Technorati provides an interface to all of the query types in Technorat
         <version>0.6.3alpha</version>
         <state>alpha</state>
         <date>2005-05-01</date>
-        <notes>Added checks to be sure we have a cache object before trying to use it.</notes>
+        <notes>Completed unit tests and made several minor changes (mainly type checking) as a result
+Added checks to be sure we have a cache object before trying to use it.</notes>
         <filelist>
             <dir name="/" baseinstalldir="" />
             <dir name="Services">
