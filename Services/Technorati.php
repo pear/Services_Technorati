@@ -140,7 +140,7 @@ class Services_Technorati
      * @param       array   options
      * @return      array
      */
-    function cosmos($url, $options)
+    function cosmos($url, $options = null)
     {
         /* Check for invalid options */
 
@@ -185,7 +185,7 @@ class Services_Technorati
      * @param       array   options
      * @return      array
      */
-    function search($query, $options = array())
+    function search($query, $options = null)
     {
         /* Check for invalid options */
 
@@ -202,8 +202,11 @@ class Services_Technorati
 
         /* Build cache URI */
 
-        $filename = "search." . implode("_", $query) . implode("_",$options);
-
+        $filename = "search." . str_replace(" ", "_", $query);
+        if (is_array($options)) {
+            $filename = $filename . implode("_", $options);
+        }
+        
         /* Check if cached */
 
         if (isset($this->_cache) and $cache = $this->_cache->get($filename)) {
@@ -262,7 +265,7 @@ class Services_Technorati
      * @param       array   options
      * @return      array
      */
-    function outbound($url, $options = array())
+    function outbound($url, $options = null)
     {
         /* Check for invalid options */
 
@@ -340,7 +343,7 @@ class Services_Technorati
      * @param       array   options
      * @return      array
      */
-    function tag($tag, $options = array())
+    function tag($tag, $options = null)
     {
         /* Check for invalid options */
 
@@ -385,7 +388,7 @@ class Services_Technorati
      * @param       array   options
      * @return      array
      */
-    function topTags($options)
+    function topTags($options = null)
     {
         $valid_options = array('limit', 'start');
         if (is_array($options)) {
@@ -393,14 +396,14 @@ class Services_Technorati
             if (PEAR::isError($options)) {
                 return $options;
             }
-            $options['url'] = urlencode($url);
-        } else {
-            return PEAR::raiseError('You must supply options as an array');
         }
 
         /* Build cache URI */
 
-        $filename = $url. "cosmos" . implode("-", $options);
+        $filename = $url . "topTags";
+        if (is_array($options)) {
+            $filename = $filane . implode("-", $options);
+        }
 
         /* Check if cached */
 
@@ -529,20 +532,23 @@ class Services_Technorati
      * @param       array   parameters
      * @return      array|PEAR_ERROR
      */
-    function _sendRequest($query, $options = array())
+    function _sendRequest($query, $options = null)
     {
         /* Do all the nitty gritty HTTP stuff. Except attentionPost */
         $url = sprintf("%s/%s?key=%s", $this->_apiUrl, $query, $this->_apiKey);
 
         $request =& new HTTP_Request($url);
         
-        foreach ($options as $key => $value) {
-            $request->addQueryString($key, $value);
+        if (is_array($options)) {
+            foreach ($options as $key => $value) {
+                $request->addQueryString($key, $value);
+            }
         }
         
         $request->addHeader('User-Agent', 'Services_Technorati');
 
         $request->sendRequest();
+
         if ($request->getResponseCode() != 200) {
             return PEAR::raiseError('Invalid Response Code', 
                 $request->getResponseCode());
