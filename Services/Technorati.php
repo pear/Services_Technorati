@@ -133,111 +133,35 @@ class Services_Technorati
     }
 
     /**
-     * Cosmos lets you see what blogs are linking to a given URL
+     * This method handles the majority of the work for most of our queries.
      *
-     * @access      public
-     * @param       string  url
-     * @param       array   options
+     * @access      private
+     * @param       string  the query type we're performing
+     * @param       array   an array for our main query parameter (key and value)
+     * @param       array   the valid options for this query
+     * @param       array   the user's chosen options
      * @return      array
      */
-    function cosmos($url, $options = null)
+    function _general($query, $chief_param, $valid_options, $options = null)
     {
         /* Check for invalid options */
 
-        $valid_options = array('type', 'limit', 'start', 'current', 'claim',
-                'highlight');
         if (is_array($options)) {
             $options = $this->_checkOptions($options, $valid_options);
             if (PEAR::isError($options)) {
                 return $options;
             }
-            $options['url'] = urlencode($url);
+            array_merge($options, $chief_param);
         } else {
-            $options = array('url' => urlencode($url));
+            $options = $chief_param;
         }
 
         /* Build cache URI */
 
-        $filename = $url . "cosmos" . implode("-", $options);
-
-        /* Check if cached */
-
-        if (!empty($this->_cache) and $cache = $this->_cache->get($filename)) {
-            return $cache;
-        }
-
-        /* Not cached */
-
-        $value = $this->_sendRequest('cosmos', $options);
-
-        if (! PEAR::isError($value) and !empty($this->_cache)) {
-            $this->_cache->save($value);
-        }
-
-        return $value;
-    }
-
-    /**
-     * The search lets you see what blogs contain a given search string
-     *
-     * @access      public
-     * @param       string  query
-     * @param       array   options
-     * @return      array
-     */
-    function search($query, $options = null)
-    {
-        /* Check for invalid options */
-
-        $valid_options = array('start','limit','claim');
-        if (is_array($options)) {
-            $options = $this->_checkOptions($options, $valid_options);
-            if (PEAR::isError($options)) {
-                return $options;
-            }
-            $options['query'] = urlencode($query);
-        } else {
-            $options = array('query' => urlencode($query));
-        }
-
-        /* Build cache URI */
-
-        $filename = "search." . str_replace(" ", "_", $query);
+        $filename = $query . "." . str_replace(" ", "_", $query);
         if (is_array($options)) {
             $filename = $filename . implode("_", $options);
         }
-        
-        /* Check if cached */
-
-        if (isset($this->_cache) and $cache = $this->_cache->get($filename)) {
-            return $cache;
-        }
-
-        /* Not cached */
-
-        $value = $this->_sendRequest('search', $options);
-
-        if (! PEAR::isError($value) and !empty($this->_cache)) {
-            $this->_cache->save($value);
-        }
-
-        return $value;
-    }
-
-    /**
-     * The getinfo query tells you things that Technorati knows about a user
-     *
-     * @access      public
-     * @param       string  username
-     * @return      array
-     */
-    function getInfo($username)
-    {
-        $options = array('username' => urlencode($username));
-
-        /* Build cache URI */
-
-        $filename = "getinfo.$username";
 
         /* Check if cached */
 
@@ -247,173 +171,7 @@ class Services_Technorati
 
         /* Not cached */
 
-        $value = $this->_sendRequest('getinfo', $options);
-
-        if (! PEAR::isError($value) and !empty($this->_cache)) {
-            $this->_cache->save($value);
-        }
-
-        return $value;
-    }
-
-    /**
-     *  The outbound query lets you see what blogs are linked to from a given
-     *  blog, including their associated info.
-     *
-     * @access      public
-     * @param       string  url
-     * @param       array   options
-     * @return      array
-     */
-    function outbound($url, $options = null)
-    {
-        /* Check for invalid options */
-
-        $valid_options = array('start');
-        if (is_array($options)) {
-            $options = $this->_checkOptions($options, $valid_options);
-            if (PEAR::isError($options)) {
-                return $options;
-            }
-            $options['url'] = urlencode($url);
-        } else {
-            $options = array('url' => urlencode($url));
-        }
-
-        /* Build cache URI */
-
-        $filename = $url . "outbound." . implode("_",$options);
-
-        /* Check if cached */
-
-        if (isset($this->_cache) and $cache = $this->_cache->get($filename)) {
-            return $cache;
-        }
-
-        /* Not cached */
-
-        $value = $this->_sendRequest('outbound', $options);
-
-        if (! PEAR::isError($value) and !empty($this->_cache)) {
-            $this->_cache->save($value);
-        }
-
-        return $value;
-    }
-
-    /**
-     *  The bloginfo query provides info on what blog, if any, is 
-     *  associated with a given URL
-     *
-     * @access      public
-     * @param       string  url
-     * @return      array
-     */
-    function blogInfo($url)
-    {
-        $options['url'] = urlencode($url);
-
-        /* Build cache URI */
-
-        $filename = $url . "bloginfo.";
-
-        /* Check if cached */
-
-        if (isset($this->_cache) and $cache = $this->_cache->get($filename)) {
-            return $cache;
-        }
-
-        /* Not cached */
-
-        $value = $this->_sendRequest('bloginfo', $options);
-
-        if (! PEAR::isError($value) and !empty($this->_cache)) {
-            $this->_cache->save($value);
-        }
-
-        return $value;
-    }
-
-    /**
-     *  The tag query allows you to get a list of posts with the given tag 
-     *  associated with it. This API query is currently experimental.
-     * 
-     * @access      public
-     * @param       string  url
-     * @param       array   options
-     * @return      array
-     */
-    function tag($tag, $options = null)
-    {
-        /* Check for invalid options */
-
-        $valid_options = array('limit', 'start', 'format',
-            'excerptsize', 'topexcerptsize');
-        if (is_array($options)) {
-            $options = $this->_checkOptions($options, $valid_options);
-            if (PEAR::isError($options)) {
-                return $options;
-            }
-            $options['tag'] = $tag;
-        } else {
-            $options = array('tag' => $tag);
-        }
-
-        /* Build cache URI */
-
-        $filename = "tag.{$tag}";
-
-        /* Check if cached */
-
-        if (isset($this->_cache) and $cache = $this->_cache->get($filename)) {
-            return $cache;
-        }
-
-        /* Not cached */
-
-        $value = $this->_sendRequest('tag', $options);
-
-        if (! PEAR::isError($value) and !empty($this->_cache)) {
-            $this->_cache->save($value);
-        }
-
-        return $value;
-    }
-
-    /**
-     * TopTags lets you retrieve a list of the most popular post tagd
-     * tracked by Technorati
-     *
-     * @access      public
-     * @param       array   options
-     * @return      array
-     */
-    function topTags($options = null)
-    {
-        $valid_options = array('limit', 'start');
-        if (is_array($options)) {
-            $options = $this->_checkOptions($options, $valid_options);
-            if (PEAR::isError($options)) {
-                return $options;
-            }
-        }
-
-        /* Build cache URI */
-
-        $filename = $url . "topTags";
-        if (is_array($options)) {
-            $filename = $filane . implode("-", $options);
-        }
-
-        /* Check if cached */
-
-        if (isset($this->_cache) and $cache = $this->_cache->get($filename)) {
-            return $cache;
-        }
-
-        /* Not cached */
-
-        $value = $this->_sendRequest('toptags', $options);
+        $value = $this->_sendRequest($query, $options);
 
         if (! PEAR::isError($value) and !empty($this->_cache)) {
             $this->_cache->save($value);
@@ -432,40 +190,120 @@ class Services_Technorati
      */
     function blogPostTags($url, $options = array())
     {
+        return $this->_general("blogposttags", array("url" => $url), 
+            array("limit"), $options);
+    }
+
+    /**
+     * Cosmos lets you see what blogs are linking to a given URL
+     *
+     * @access      public
+     * @param       string  url
+     * @param       array   options
+     * @return      array
+     */
+    function cosmos($url, $options = null)
+    {
+        $valid_options = array('type', 'limit', 'start', 'current', 'claim',
+                'highlight');
+        return $this->_general("cosmos", array("url" => $url), 
+            $valid_options, $options);
+    }
+
+    /**
+     * The search lets you see what blogs contain a given search string
+     *
+     * @access      public
+     * @param       string  query
+     * @param       array   options
+     * @return      array
+     */
+    function search($query, $options = null)
+    {
+        $valid_options = array('start','limit','claim');
+        return $this->_general("search", array("query" => $query), 
+            $valid_options, $options);
+    }
+    
+    /**
+     *  The outbound query lets you see what blogs are linked to from a given
+     *  blog, including their associated info.
+     *
+     * @access      public
+     * @param       string  url
+     * @param       array   options
+     * @return      array
+     */
+    function outbound($url, $options = null)
+    {
         /* Check for invalid options */
-        $valid_options = array('limit');
-        if (is_array($options)) {
-            $options = $this->_checkOptions($options, $valid_options);
-            if (PEAR::isError($options)) {
-                return $options;
-            }
-            $options['url'] = urlencode($url);
-        } else {
-            $options = array('url' => urlencode($url));
-        }
 
-        /* Build cache URI */
+        $valid_options = array('start');
+        return $this->_general("outbound", array("url" => $url), 
+            $valid_options, $options);
+    }
 
-        $filename = "blogposttags." . str_replace(" ", "_", $query);
-        if (is_array($options)) {
-            $filename = $filename . implode("_", $options);
-        }
-        
-        /* Check if cached */
+    /**
+     *  The tag query allows you to get a list of posts with the given tag 
+     *  associated with it. This API query is currently experimental.
+     * 
+     * @access      public
+     * @param       string  url
+     * @param       array   options
+     * @return      array
+     */
+    function tag($tag, $options = null)
+    {
+        /* Check for invalid options */
 
-        if (isset($this->_cache) and $cache = $this->_cache->get($filename)) {
-            return $cache;
-        }
+        $valid_options = array('limit', 'start', 'format',
+            'excerptsize', 'topexcerptsize');
+        return $this->_general("tag", array("tag" => $tag), 
+            $valid_options, $options);
+    }
 
-        /* Not cached */
+    /**
+      * TopTags lets you retrieve a list of the most popular post tagd
+      * tracked by Technorati
+      *
+      * @access      public
+      * @param       array   options
+      * @return      array
+      */
+     function topTags($options = null)
+     {
+         $valid_options = array('limit', 'start');
+         return $this->_general("topTags", array(), 
+             $valid_options, $options);
+     }
 
-        $value = $this->_sendRequest('blogposttags', $options);
+    /**
+     * The getinfo query tells you things that Technorati knows about a user
+     *
+     * @access      public
+     * @param       string  username
+     * @return      array
+     */
+    function getInfo($username)
+    {
+        $options = array('username' => urlencode($username));
+        return $this->_general("getinfo", $options,
+            array(), false);
+    }
 
-        if (! PEAR::isError($value) and !empty($this->_cache)) {
-            $this->_cache->save($value);
-        }
-
-        return $value;
+    /**
+     *  The bloginfo query provides info on what blog, if any, is 
+     *  associated with a given URL
+     *
+     * @access      public
+     * @param       string  url
+     * @return      array
+     */
+    function blogInfo($url)
+    {
+        $options =array('url' => urlencode($url));
+        return $this->_general("getinfo", $options,
+            array(), false);
     }
 
     /**
@@ -479,28 +317,10 @@ class Services_Technorati
      */
     function attention($user, $password)
     {
-
-        $options = array('username' => $user, 'password' => md5($password));
-
-        /* Build cache URI */
-
-        $filename = "attention.{$user}";
-
-        /* Check if cached */
-
-        if (isset($this->_cache) and $cache = $this->_cache->get($filename)) {
-            return $cache;
-        }
-
-        /* Not cached */
-
-        $value = $this->_sendRequest('attention', $options);
-
-        if (! PEAR::isError($value) and !empty($this->_cache)) {
-            $this->_cache->save($value);
-        }
-
-        return $value;  
+        $key_options = array('username' => $user);
+        $options = array('password' => md5($password));
+        return $this->_general("attention", $key_options,
+            array("password"), $options);
     }
 
     /**
@@ -539,29 +359,11 @@ class Services_Technorati
 
         $request->sendRequest();
 
-        if ($request->getResponseCode() != 200) {
-            return PEAR::raiseError('Invalid Response Code', 
-                    $request->getResponseCode());
+        $value = $this->_processResponse($request);
+
+        if (PEAR::isError($value)) {
+            return $value;
         }
-
-        $result = $request->getResponseBody();
-
-        if (!is_object($this->_xmlUs)) {
-            $this->_xmlUs =& new XML_Unserializer();
-            $this->_xmlUs->setOption('parseAttributes',true);
-        }
-
-        $result = $this->_xmlUs->unserialize($result);
-
-        if (PEAR::isError($result)) {
-            return $result;
-        }
-        if (!empty($result['document']['result']['error'])) {
-            return PEAR::raiseError("Technorati Response Error",
-                $value['document']['result']['error']);
-        }
-
-        $value = $this->_xmlUs->getUnserializedData();
 
         /* Store in cache */
 
@@ -595,6 +397,19 @@ class Services_Technorati
 
         $request->sendRequest();
 
+        return $this->_processResponse($request);
+    }
+
+    /**
+     * This function takes the request sent by either attentionPost or
+     * _sendRequest and processes it, returning an unserialized version
+     *
+     * @access      private
+     * @param       HTTP_Request_Response
+     * @return      array|PEAR_Error
+     */
+    function _processResponse(&$request)
+    {
         if ($request->getResponseCode() != 200) {
             return PEAR::raiseError('Invalid Response Code', 
                 $request->getResponseCode());
