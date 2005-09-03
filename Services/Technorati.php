@@ -423,6 +423,52 @@ class Services_Technorati
     }
 
     /**
+     * The BlogPostTags query returns the top tags for a given blog URL.
+     *
+     * @access      public
+     * @param       string  the url to query for
+     * @param       array   options
+     * @return      array
+     */
+    function blogPostTags($url, $options = array())
+    {
+        /* Check for invalid options */
+        $valid_options = array('limit');
+        if (is_array($options)) {
+            $options = $this->_checkOptions($options, $valid_options);
+            if (PEAR::isError($options)) {
+                return $options;
+            }
+            $options['url'] = urlencode($url);
+        } else {
+            $options = array('url' => urlencode($url));
+        }
+
+        /* Build cache URI */
+
+        $filename = "blogposttags." . str_replace(" ", "_", $query);
+        if (is_array($options)) {
+            $filename = $filename . implode("_", $options);
+        }
+        
+        /* Check if cached */
+
+        if (isset($this->_cache) and $cache = $this->_cache->get($filename)) {
+            return $cache;
+        }
+
+        /* Not cached */
+
+        $value = $this->_sendRequest('blogposttags', $options);
+
+        if (! PEAR::isError($value) and !empty($this->_cache)) {
+            $this->_cache->save($value);
+        }
+
+        return $value;
+    }
+
+    /**
      *  This lets users retrieve their Attention.XML
      *  This API query is currently experimental.
      *
