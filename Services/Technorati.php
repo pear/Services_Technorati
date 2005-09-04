@@ -67,22 +67,6 @@ class Services_Technorati
     var $_apiKey = null;
 
     /**
-     * Hours To Cache
-     *
-     * @access  private
-     * @var     int
-     */
-    var $_hoursToCache;
-
-    /**
-     * Path To Cache
-     *
-     * @access  private
-     * @var     string
-     */
-    var $_pathToCache;
-
-    /**
      * XML_Unserializer, used to parse the XML
      *
      * @access  private
@@ -263,7 +247,7 @@ class Services_Technorati
     }
 
     /**
-      * TopTags lets you retrieve a list of the most popular post tagd
+      * TopTags lets you retrieve a list of the most popular post tags
       * tracked by Technorati
       *
       * @access      public
