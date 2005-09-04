@@ -4,7 +4,7 @@
     <summary>A class for interacting with the Technorati API</summary>
     <description>Services_Technorati is a wrapper for the REST-based Technorati webservices API. Technorati is a blog search engine that provides a number of interfaces for interacting with recent blog entries, such as searching for entries that link to a certain URL, are linked from a certain URL, or have been given certain tags.
 
-Services_Technorati provides an interface to all of the query types in Technorati API version 1.0, and supports filesystem caching of query data using Cache_Lite.
+Services_Technorati provides an interface to all of the query types in Technorati API version 1.0, and supports filesystem caching of query data using Cache_Lite compatible cache objects.
 </description>
     <license>PHP License</license>
     <maintainers>
@@ -22,11 +22,12 @@ Services_Technorati provides an interface to all of the query types in Technorat
         </maintainer>
     </maintainers>
     <release>
-        <version>0.6.3alpha</version>
-        <state>alpha</state>
-        <date>2005-05-01</date>
-        <notes>Completed unit tests and made several minor changes (mainly type checking) as a result
-Added checks to be sure we have a cache object before trying to use it.</notes>
+        <version>0.6.4beta</version>
+        <state>beta</state>
+        <date>2005-09-04</date>
+        <notes>Added support for new blogPostTags API method
+Refactored most calls and broke up _sendRequest method
+Fixed typos in comments</notes>
         <filelist>
             <dir name="/" baseinstalldir="" />
             <dir name="Services">
@@ -45,6 +46,13 @@ Added checks to be sure we have a cache object before trying to use it.</notes>
         </deps>
     </release>
     <changelog>
+       <release>
+            <version>0.6.3alpha</version>
+            <state>alpha</state>
+            <date>2005-05-01</date>
+            <notes>Completed unit tests and made several minor changes (mainly type checking) as a result
+            Added checks to be sure we have a cache object before trying to use it.</notes>
+       </release>
        <release>
             <version>0.6.2alpha</version>
             <state>alpha</state>
