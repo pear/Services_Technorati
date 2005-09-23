@@ -135,7 +135,7 @@ class Services_Technorati
             if (PEAR::isError($options)) {
                 return $options;
             }
-            array_merge($options, $chief_param);
+            $options = array_merge($options, $chief_param);
         } else {
             $options = $chief_param;
         }
