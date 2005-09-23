@@ -22,12 +22,10 @@ Services_Technorati provides an interface to all of the query types in Technorat
         </maintainer>
     </maintainers>
     <release>
-        <version>0.6.4beta</version>
+        <version>0.6.5beta</version>
         <state>beta</state>
-        <date>2005-09-04</date>
-        <notes>Added support for new blogPostTags API method
-Refactored most calls and broke up _sendRequest method
-Fixed typos in comments</notes>
+        <date>2005-09-22</date>
+        <notes>Resolved bug #5500 - misuse of array_merge</notes>
         <filelist>
             <dir name="/" baseinstalldir="" />
             <dir name="Services">
@@ -46,6 +44,14 @@ Fixed typos in comments</notes>
         </deps>
     </release>
     <changelog>
+        <release>
+            <version>0.6.4beta</version>
+            <state>beta</state>
+            <date>2005-09-04</date>
+            <notes>Added support for new blogPostTags API method
+Refactored most calls and broke up _sendRequest method
+Fixed typos in comments</notes>
+        </release>
        <release>
             <version>0.6.3alpha</version>
             <state>alpha</state>
