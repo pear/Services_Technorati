@@ -1,21 +1,16 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
+
 /**
  * Client library for Technorati's REST-based webservices
  *
  * PHP versions 4 and 5
  *
- * LICENSE: This source file is subject to version 3.0 of the PHP license
- * that is available through the world-wide-web at the following URI:
- * http://www.php.net/license/3_0.txt. If you did not receive a copy of
- * the PHP License and are unable to obtain it through the web, please
- * send a note to license@php.net so we can mail you a copy immediately.
- *
  * @category   Services
  * @package    Services_Technorati
  * @author     James Stewart <james@jystewart.net>
- * @copyright  2005 The PHP Group
- * @license    http://www.php.net/license/3_0.txt PHP License 3.0
+ * @copyright  2005 James Stewart
+ * @license    http://www.gnu.org/copyleft/lesser.html  GNU LGPL
  * @version    CVS: $id: Technorati.php,v @version@ 2005/04/16 16:49:00 jystewart Exp $
  * @link       http://pear.php.net/package/Services_Technorati
  */
