@@ -9,9 +9,9 @@
  * @category   Services
  * @package    Services_Technorati
  * @author     James Stewart <james@jystewart.net>
- * @copyright  2005 James Stewart
+ * @copyright  2004-2005 James Stewart
  * @license    http://www.gnu.org/copyleft/lesser.html  GNU LGPL
- * @version    CVS: $id: Technorati.php,v @version@ 2005/04/16 16:49:00 jystewart Exp $
+ * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Services_Technorati
  */
 
@@ -37,10 +37,12 @@ require_once 'HTTP/Request.php';
  * explore and utilise the blogosphere. The API provides enhanced
  * access to all the site's features
  *
- * @author      James Sytewart <james@jystewart.net>
- * @package     Services_Technorati
- * @version     @version@
  * @todo        update once attention.xml query is stabilised
+ * @category    Webservices
+ * @package     Services_Technorati
+ * @author      James Stewart <james@jystewart.net>
+ * @license     http://www.gnu.org/copyleft/lesser.html  GNU LGPL
+ * @version     Release: @package_version@
  * @link        http://pear.php.net/package/Services_Technorati
  */
 class Services_Technorati
@@ -280,8 +282,8 @@ class Services_Technorati
      */
     function blogInfo($url)
     {
-        $options =array('url' => urlencode($url));
-        return $this->_general("getinfo", $options,
+        $options = array('url' => $url);
+        return $this->_general("bloginfo", $options,
             array(), false);
     }
 

@@ -22,15 +22,15 @@ Services_Technorati provides an interface to all of the query types in Technorat
         </maintainer>
     </maintainers>
     <release>
-        <version>0.6.5beta</version>
+        <version>0.6.6beta</version>
         <state>beta</state>
-        <date>2005-09-22</date>
-        <notes>Resolved bug #5500 - misuse of array_merge</notes>
+        <date>2005-09-24</date>
+        <notes>Cleaning up docblocks and versioning data</notes>
         <filelist>
             <dir name="/" baseinstalldir="" />
-            <dir name="Services">
-                <file role="php" name="Technorati.php">
-                    <replace from="@version@" to="version" type="package-info"/>
+            <dir name="Services" role="php">
+                <file name="Technorati.php">
+                    <replace from="@package_version@" to="version" type="package-info"/>
                 </file>
             </dir>
             <dir name="test">
@@ -44,6 +44,12 @@ Services_Technorati provides an interface to all of the query types in Technorat
         </deps>
     </release>
     <changelog>
+        <release>
+            <version>0.6.5beta</version>
+            <state>beta</state>
+            <date>2005-09-22</date>
+            <notes>Resolved bug #5500 - misuse of array_merge</notes>
+        </release>
         <release>
             <version>0.6.4beta</version>
             <state>beta</state>
