@@ -78,10 +78,23 @@ class Services_Technorati
      * @param      string   apiKey
      * @param      object   cache
      */
-    function Services_Technorati($apiKey, $cache = null)
+    function __construct($apiKey, $cache = null)
     {
         $this->_apiKey = $apiKey;
         $this->_cache = $cache;
+    }
+    
+    /**
+     * Create our client. A proxy to the __construct() method to maintain
+     * PHP4 compatibility.
+     *
+     * @access     public
+     * @param      string   apiKey
+     * @param      object   cache
+     */    
+    function Services_Technorati($apiKey, $cache = null)
+    {
+        $this->__construct($apiKey, $cache);
     }
 
     /**
@@ -126,7 +139,6 @@ class Services_Technorati
     function _general($query, $chief_param, $valid_options, $options = null)
     {
         /* Check for invalid options */
-
         if (is_array($options)) {
             $options = $this->_checkOptions($options, $valid_options);
             if (PEAR::isError($options)) {
@@ -138,24 +150,22 @@ class Services_Technorati
         }
 
         /* Build cache URI */
-
         $filename = $query . "." . str_replace(" ", "_", $query);
         if (is_array($options)) {
             $filename = $filename . implode("_", $options);
         }
 
         /* Check if cached */
-
         if (isset($this->_cache) and $cache = $this->_cache->get($filename)) {
             return $cache;
         }
 
         /* Not cached */
-
         $value = $this->_sendRequest($query, $options);
 
+        /* Save the data in the cache if appropriate. We use the filename as the ID */
         if (! PEAR::isError($value) and !empty($this->_cache)) {
-            $this->_cache->save($value);
+            $this->_cache->save($value, $filename);
         }
 
         return $value;
@@ -325,8 +335,8 @@ class Services_Technorati
         $filename = "attention.{$user}";
 
         /* We don't cache this query */
-
         $request =& new HTTP_Request($this->_apiUrl . "attention");
+        $request->addHeader('User-Agent', 'Services_Technorati');
         $request->setMethod(HTTP_REQUEST_METHOD_POST);
         $addfile = $request->addFile("attention.xml", $file);
 
@@ -336,7 +346,6 @@ class Services_Technorati
 
         $request->addPostData("username", $user);
         $request->addPostData("password", md5($password));
-        $request->addHeader('User-Agent', 'Services_Technorati');
 
         $request->sendRequest();
 
@@ -366,15 +375,15 @@ class Services_Technorati
         /* Do all the nitty gritty HTTP stuff. Except attentionPost */
         $url = sprintf("%s/%s?key=%s", $this->_apiUrl, $query, $this->_apiKey);
 
-        $request =& new HTTP_Request($url);
-        
+        $request =& new HTTP_Request($this->_apiUrl . "attention");
+        $request->addHeader('User-Agent', 'Services_Technorati');
+        $request->setURL($url);
+
         if (is_array($options)) {
             foreach ($options as $key => $value) {
                 $request->addQueryString($key, $value);
             }
         }
-        
-        $request->addHeader('User-Agent', 'Services_Technorati');
 
         $request->sendRequest();
 
@@ -386,7 +395,7 @@ class Services_Technorati
      * _sendRequest and processes it, returning an unserialized version
      *
      * @access      private
-     * @param       HTTP_Request_Response
+     * @param       HTTP_Request    $request    the request object
      * @return      array|PEAR_Error
      */
     function _processResponse(&$request)
@@ -431,6 +440,7 @@ class Services_Technorati
      */
     function _checkOptions($current, $accepted) 
     {
+        $accepted_options = array();
         foreach ($current as $option => $value) {
             if (in_array($option, $accepted)) {
                 $accepted_options[$option] = $value;
