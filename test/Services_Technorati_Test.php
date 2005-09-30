@@ -9,7 +9,7 @@ class Webservices_Technorati_TestCase extends PHPUnit_Testcase
 	var $tapi;
 	
 	// contains our API key
-	var $key;
+	var $key = "492a5486316000b6c9797e05cd64d846";
 	
     /* constructor for test suite */
     function Webservices_Technorati_Testcase($name) {

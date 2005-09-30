@@ -25,7 +25,10 @@ Services_Technorati provides an interface to all of the query types in Technorat
         <version>0.6.6beta</version>
         <state>beta</state>
         <date>2005-09-24</date>
-        <notes>Cleaning up docblocks and versioning data</notes>
+        <notes>Cleaning up docblocks and versioning data
+Changed license to LGPL
+Fixed bug in return value of _checkOptions()
+Fixed typo in topTags method</notes>
         <filelist>
             <dir name="/" baseinstalldir="" />
             <dir name="Services" role="php">

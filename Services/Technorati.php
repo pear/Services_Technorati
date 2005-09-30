@@ -264,7 +264,7 @@ class Services_Technorati
      function topTags($options = null)
      {
          $valid_options = array('limit', 'start');
-         return $this->_general("topTags", array(), 
+         return $this->_general("toptags", array(), 
              $valid_options, $options);
      }
 
