@@ -1,9 +1,6 @@
 <?php
 
-require_once '../Services/Technorati.php';
-require_once '/usr/lib/php/PHPUnit.php';
-
-class Webservices_Technorati_TestCase extends PHPUnit_Testcase
+class Services_Technorati_Test extends PHPUnit_Testcase
 {
 	// contains the object handle of our Technorati class.
 	var $tapi;
@@ -12,7 +9,7 @@ class Webservices_Technorati_TestCase extends PHPUnit_Testcase
 	var $key = "492a5486316000b6c9797e05cd64d846";
 	
     /* constructor for test suite */
-    function Webservices_Technorati_Testcase($name) {
+    function Services_Technorati_Test($name) {
     	$this->PHPUnit_TestCase($name);
     }
     

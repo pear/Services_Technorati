@@ -22,13 +22,10 @@ Services_Technorati provides an interface to all of the query types in Technorat
         </maintainer>
     </maintainers>
     <release>
-        <version>0.6.6beta</version>
+        <version>0.6.7beta</version>
         <state>beta</state>
         <date>2005-09-24</date>
-        <notes>Cleaning up docblocks and versioning data
-Changed license to LGPL
-Fixed bug in return value of _checkOptions()
-Fixed typo in topTags method</notes>
+        <notes>Added run-tests.php test harness</notes>
         <filelist>
             <dir name="/" baseinstalldir="" />
             <dir name="Services" role="php">
@@ -36,8 +33,9 @@ Fixed typo in topTags method</notes>
                     <replace from="@package_version@" to="version" type="package-info"/>
                 </file>
             </dir>
-            <dir name="test">
-                <file role="test" name="Services_Technorati_Test.php"/>
+            <dir name="test" role="test">
+                <file name="run-tests.php"/>
+                <file name="Services_Technorati_Test.php"/>
             </dir>
         </filelist>
         <deps>
@@ -47,6 +45,15 @@ Fixed typo in topTags method</notes>
         </deps>
     </release>
     <changelog>
+        <release>
+            <version>0.6.6beta</version>
+            <state>beta</state>
+            <date>2005-09-24</date>
+            <notes>Cleaning up docblocks and versioning data
+Changed license to LGPL
+Fixed bug in return value of _checkOptions()
+Fixed typo in topTags method</notes>
+        </release>
         <release>
             <version>0.6.5beta</version>
             <state>beta</state>
