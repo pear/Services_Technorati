@@ -56,6 +56,13 @@ class Services_Technorati
     var $_apiUrl = 'http://api.technorati.com';
 
     /**
+     * User agent to send with requests
+     * @access  public
+     * @var  string
+     */
+    var $userAgent = 'Services_Technorati';
+
+    /**
      * API Key
      *
      * @access  private
@@ -336,7 +343,7 @@ class Services_Technorati
 
         /* We don't cache this query */
         $request =& new HTTP_Request($this->_apiUrl . "attention");
-        $request->addHeader('User-Agent', 'Services_Technorati');
+        $request->addHeader('User-Agent', $this->userAgent);
         $request->setMethod(HTTP_REQUEST_METHOD_POST);
         $addfile = $request->addFile("attention.xml", $file);
 
