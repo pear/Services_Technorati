@@ -89,6 +89,7 @@ class Services_Technorati
     {
         $this->_apiKey = $apiKey;
         $this->_cache = $cache;
+        $this->_cache->setOption('automaticSerialization', true);
     }
     
     /**
@@ -163,7 +164,8 @@ class Services_Technorati
         }
 
         /* Check if cached */
-        if (isset($this->_cache) and $cache = $this->_cache->get($filename)) {
+        if (isset($this->_cache) and 
+            $cache = $this->_cache->get($filename, 'services_technorati')) {
             return $cache;
         }
 
@@ -172,7 +174,7 @@ class Services_Technorati
 
         /* Save the data in the cache if appropriate. We use the filename as the ID */
         if (! PEAR::isError($value) and !empty($this->_cache)) {
-            $this->_cache->save($value, $filename);
+            $this->_cache->save($value, $filename, 'services_technorati');
         }
 
         return $value;
@@ -364,7 +366,7 @@ class Services_Technorati
 
         /* Store in cache */
 
-        $this->_cache->save($value);
+        $this->_cache->save($value, 'services_technorati');
 
         return $value;
     }
