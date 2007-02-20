@@ -112,10 +112,6 @@ class Services_Technorati2_TestCase extends PHPUnit_TestCase
     }
 }
 
-
-$api_key = "492a5486316000b6c9797e05cd64d846";
-Services_Technorati2_TestCase::$key = $api_key;
-
 $suite = new PHPUnit_TestSuite('Services_Technorati2_TestCase');
 $result = PHPUnit::run($suite, '123');
 echo $result->toString();
