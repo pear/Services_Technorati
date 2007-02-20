@@ -208,21 +208,23 @@ class Services_Technorati2
     }
     
     /**
-     *  The outbound query lets you see what blogs are linked to from a given
-     *  blog, including their associated info.
+     *  The outbound query let you see what blogs are linked to from a given
+     *  blog, including their associated info. It has been deprecated.
      *
      * @access      public
      * @param       string  url
      * @param       array   options
      * @return      array
+     * @deprecated
      */
     function outbound($url, $options = null)
     {
+        throw new Services_Technorati2_Exception('The \'outbound\' query has been deprecated');
         /* Check for invalid options */
 
-        $valid_options = array('start');
-        return $this->general('outbound', array('url' => $url), 
-            $valid_options, $options);
+        // $valid_options = array('start');
+        // return $this->general('outbound', array('url' => $url), 
+        //     $valid_options, $options);
     }
 
     /**
@@ -390,6 +392,7 @@ class Services_Technorati2
     protected function processResponse($request)
     {
         if ($request->getResponseCode() != 200) {
+          print $request->getResponseCode();
             throw new Services_Technorati2_Exception('Invalid Response Code', 
               $request->getResponseCode());
         }
