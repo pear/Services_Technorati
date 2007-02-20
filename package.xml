@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.5.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>Services_Technorati2</name>
+ <channel>pear.php.net</channel>
+ <summary>A class for interacting with the Technorati API</summary>
+ <description>Services_Technorati is a wrapper for the REST-based Technorati webservices API. Technorati is a blog search engine that provides a number of interfaces for interacting with recent blog entries, such as searching for entries that link to a certain URL, are linked from a certain URL, or have been given certain tags.
+
+Services_Technorati provides an interface to all of the query types in Technorati API version 1.0, and supports filesystem caching of query data using Cache_Lite compatible cache objects.
+
+ </description>
+ <lead>
+  <name>James Stewart</name>
+  <user>jystewart</user>
+  <email>james@jystewart.net</email>
+  <active>yes</active>
+ </lead>
+ <developer>
+  <name>Ryan King</name>
+  <user>ryansking</user>
+  <email>ryansking@php.net</email>
+  <active>yes</active>
+ </developer>
+ <!-- <date>2007-02-20</date> -->
+ <!-- <time>09:22:52</time> -->
+ <!-- <version> -->
+ <!--  <release>0.6.7beta</release> -->
+ <!--  <api>0.6.7beta</api> -->
+ <!-- </version> -->
+ <!-- <stability> -->
+ <!--  <release>beta</release> -->
+ <!--  <api>beta</api> -->
+ <!-- </stability> -->
+ <license uri="http://www.php.net/license">PHP License</license>
+ <!-- <notes>Added run-tests.php test harness</notes> -->
+ <contents>
+  <dir name="/">
+   <dir name="Services">
+    <file baseinstalldir="" name="Technorati2.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <dir name="Technorati2">
+      <file baseinstalldir="" name="Exception.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+    </dir>
+   </dir> <!-- /Services -->
+   <dir name="test">
+    <file baseinstalldir="" name="run-tests.php" role="test" />
+    <file baseinstalldir="" name="Services_Technorati2_Test.php" role="test" />
+   </dir> <!-- /test -->
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.0.0</min>
+   </php>
+   <extension>
+    <name>xml</name>
+   </extension>
+   <pearinstaller>
+    <min>1.4.0b1</min>
+   </pearinstaller>
+   <package>
+    <name>HTTP_Request</name>
+    <channel>pear.php.net</channel>
+   </package>
+  </required>
+  <optional>
+   <package>
+    <name>Cache_Lite</name>
+    <channel>pear.php.net</channel>
+   </package>
+  </optional>
+ </dependencies>
+ <phprelease />
+ <changelog />
+</package>
