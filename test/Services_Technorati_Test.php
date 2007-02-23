@@ -1,9 +1,9 @@
 <?php
 
-require_once 'Services/Technorati2.php';
+require_once 'Services/Technorati.php';
 require_once 'PHPUnit.php';
 
-class Services_Technorati2_TestCase extends PHPUnit_TestCase
+class Services_Technorati_TestCase extends PHPUnit_TestCase
 {
     // contains the object handle of our Technorati class.
     public $tapi;
@@ -17,7 +17,7 @@ class Services_Technorati2_TestCase extends PHPUnit_TestCase
     // }
     
     function setUp() {
-        $this->tapi =& Services_Technorati2::factory(self::$key, null, 1.0);
+        $this->tapi =& Services_Technorati::factory(self::$key, null, 1.0);
     }
     
     function tearDown() {
@@ -30,7 +30,7 @@ class Services_Technorati2_TestCase extends PHPUnit_TestCase
      * version
      */
     function testFactory() {
-        $testTapi = new Services_Technorati2(self::$key, null, 1.0);
+        $testTapi = new Services_Technorati(self::$key, null, 1.0);
         $this->assertTrue($this->tapi == $testTapi);
     }
     
@@ -112,7 +112,7 @@ class Services_Technorati2_TestCase extends PHPUnit_TestCase
     }
 }
 
-$suite = new PHPUnit_TestSuite('Services_Technorati2_TestCase');
+$suite = new PHPUnit_TestSuite('Services_Technorati_TestCase');
 $result = PHPUnit::run($suite, '123');
 echo $result->toString();
 

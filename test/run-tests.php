@@ -9,9 +9,9 @@
  */
 
 require_once 'PHPUnit.php';
-require_once 'Services/Technorati2.php';
+require_once 'Services/Technorati.php';
 
-$testcases = array('Services_Technorati2_Test');
+$testcases = array('Services_Technorati_Test');
 
 $suite =& new PHPUnit_TestSuite();
 
@@ -25,7 +25,7 @@ foreach ($testcases as $testcase) {
 
 # You can get a key at http://www.technorati.com/developers/apikey.html
 $api_key = "<enter here>";
-Services_Technorati2_TestCase::$key = $api_key;
+Services_Technorati_TestCase::$key = $api_key;
 
 $result = PHPUnit::run($suite);
 
