@@ -61,7 +61,7 @@ class Services_Technorati
      * @access  public
      * @var  string
      */
-    public $userAgent = 'Services_Technorati v2';
+    public static $userAgent = 'Services_Technorati v2';
 
     /**
      * API Key
@@ -327,7 +327,7 @@ class Services_Technorati
 
         /* We don't cache this query */
         $request =& new HTTP_Request($this->apiUrl . 'attention');
-        $request->addHeader('User-Agent', $this->userAgent);
+        $request->addHeader('User-Agent', self::$userAgent);
         $request->setMethod(HTTP_REQUEST_METHOD_POST);
         $addfile = $request->addFile('attention.xml', $file);
 
@@ -367,7 +367,7 @@ class Services_Technorati
         $url = sprintf('%s/%s?key=%s', $this->apiUrl, $query, $this->apiKey);
 
         $request =& new HTTP_Request($this->apiUrl . 'attention');
-        $request->addHeader('User-Agent', $this->userAgent);
+        $request->addHeader('User-Agent', self::$userAgent);
         $request->setURL($url);
 
         if (is_array($options)) {
