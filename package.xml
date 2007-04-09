@@ -20,7 +20,7 @@ As of version 0.7.0 this package is PHP5 only, and requires simplexml.</descript
   <email>ryansking@php.net</email>
   <active>yes</active>
  </developer>
- <date>2007-03-08</date>
+ <date>2007-04-09</date>
  <time>10:42:13</time>
  <version>
   <release>0.7.1beta</release>
@@ -78,7 +78,7 @@ As of version 0.7.0 this package is PHP5 only, and requires simplexml.</descript
         <release>beta</release>
         <api>beta</api>
       </stability>
-      <date>2007-03-08</date>
+      <date>2007-04-09</date>
        <license uri="http://www.php.net/license">PHP License</license>
        <notes>Alpha release has seemed stable so releasing a beta</notes>
     </release>
