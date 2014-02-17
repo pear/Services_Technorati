@@ -1,0 +1,36 @@
+{
+    "authors": [
+        {
+            "email": "james@jystewart.net",
+            "name": "James Stewart",
+            "role": "Lead"
+        },
+        {
+            "email": "ryansking@php.net",
+            "name": "Ryan King",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Services_Technorati": "./"
+        }
+    },
+    "description": "More info available on: http://pear.php.net/package/Services_Technorati",
+    "include-path": [
+        "./"
+    ],
+    "license": "PHP License",
+    "name": "pear/services_technorati",
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=Services_Technorati",
+        "source": "https://github.com/pear/Services_Technorati"
+    },
+    "type": "library",
+    "require": {
+        "pear/pear_exception": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}
